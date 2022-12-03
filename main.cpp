@@ -9,6 +9,8 @@ void test_throw();
 void test_null_pointer();
 void test_div_zero();
 void test_out_of_bounds();
+void test_out_of_bounds2();
+void test_out_of_bounds3();
 
 int main(int argc, char *argv[])
 {
@@ -46,11 +48,26 @@ int main(int argc, char *argv[])
     Fx_Catch{}
     Fx_Try_End
 
+    Fx_Try
+    {
+        test_out_of_bounds2();
+    }
+    Fx_Catch{}
+    Fx_Try_End
+
+    Fx_Try
+    {
+        test_out_of_bounds3();
+    }
+    Fx_Catch{}
+    Fx_Try_End
 
     if (!BeInDebugging())
     {
         UnitExpHandler();
     }
+
+    cout << endl << "still running..." << endl;
 
     return a.exec();
 }
@@ -89,11 +106,27 @@ void test_out_of_bounds()
 {
     int* p = new int[3];
     //try {
-        for (int i = 0; i < 65535; i++) {
-            p++;
-        }
-        *p = 0;
+        *(p + 1100) = 0;
     //} catch(...) {
     //    cout << "out of bounds" << endl;
     //}
 }
+
+void test_out_of_bounds2()
+{
+    int arr[3];
+    arr[1024] = 0;
+}
+
+struct A
+{
+    char arr_a[3];
+    int arr_b[1024];
+};
+
+void test_out_of_bounds3()
+{
+    A* p = new A;
+    p->arr_a[12288] = 0;
+}
+
