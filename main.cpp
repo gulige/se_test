@@ -127,6 +127,6 @@ struct A
 void test_out_of_bounds3()
 {
     A* p = new A;
-    p->arr_a[12288] = 0;
+    p->arr_a[20480] = 0;
 }
 
